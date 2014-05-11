@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerHappy", "TriggerHapp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerHappy.Packets", "TriggerHappy.Packets\TriggerHappy.Packets.csproj", "{A082C908-080A-4D10-BF26-F1788C3EB4B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerHappy.NUnitTests", "TriggerHappy.NUnitTests\TriggerHappy.NUnitTests.csproj", "{C1CD81A8-68DD-40A6-B9F3-8DFE21B94369}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,6 +17,10 @@ Global
 		{A082C908-080A-4D10-BF26-F1788C3EB4B6}.Debug|x86.Build.0 = Debug|Any CPU
 		{A082C908-080A-4D10-BF26-F1788C3EB4B6}.Release|x86.ActiveCfg = Release|Any CPU
 		{A082C908-080A-4D10-BF26-F1788C3EB4B6}.Release|x86.Build.0 = Release|Any CPU
+		{C1CD81A8-68DD-40A6-B9F3-8DFE21B94369}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C1CD81A8-68DD-40A6-B9F3-8DFE21B94369}.Debug|x86.Build.0 = Debug|Any CPU
+		{C1CD81A8-68DD-40A6-B9F3-8DFE21B94369}.Release|x86.ActiveCfg = Release|Any CPU
+		{C1CD81A8-68DD-40A6-B9F3-8DFE21B94369}.Release|x86.Build.0 = Release|Any CPU
 		{FD94F4BB-AB28-497F-9F9B-59530D895CD5}.Debug|x86.ActiveCfg = Debug|x86
 		{FD94F4BB-AB28-497F-9F9B-59530D895CD5}.Debug|x86.Build.0 = Debug|x86
 		{FD94F4BB-AB28-497F-9F9B-59530D895CD5}.Release|x86.ActiveCfg = Release|x86

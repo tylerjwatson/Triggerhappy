@@ -1,11 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestChain.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TriggerHappy.NUnitTests\Test.cs">
     <Files>
-      <File FileName="TestChain.xml" Line="27" Column="35" />
       <File FileName="Triggers\AlwaysTrigger.cs" Line="12" Column="50" />
-      <File FileName="Framework\Attributes\FilterAttribute.cs" Line="9" Column="39" />
-      <File FileName="Triggers\PacketThresholdTrigger.cs" Line="11" Column="17" />
+      <File FileName="ChainLoader.cs" Line="30" Column="6" />
+      <File FileName="TriggerHappyPlugin.cs" Line="78" Column="3" />
+      <File FileName="Framework\Chain.cs" Line="25" Column="34" />
+      <File FileName="TriggerHappy.NUnitTests\Test.cs" Line="11" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

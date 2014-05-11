@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace TriggerHappy {
 	public class Chain {
@@ -11,12 +12,106 @@ namespace TriggerHappy {
 		public List<Trigger> Triggers { get; protected set; }
 		public List<Action> Actions { get; protected set; }
 
+
 		public Chain(TriggerHappyPlugin parent, XElement chainElement) {
 			this.Parent = parent;
 			this.chainElement = chainElement;
-
+		
 			if (this.chainElement.HasAttributes == true && this.chainElement.Attribute("Name") != null) {
 				this.Name = this.chainElement.Attribute("Name").Value;
+			}
+
+			LoadFilters(ref chainElement);
+			LoadTriggers(ref chainElement);
+			LoadActions(ref chainElement);
+		}
+
+		protected void LoadActions(ref XElement chainElement) {
+			if (this.chainElement.Element("Actions") != null) {
+				Actions = new List<Action>();
+
+				foreach (XElement element in this.chainElement.Element("Actions").Elements()) {
+					Type actionType = null;
+					Action actionInstance = null;
+					if ((actionType = Parent.GetActionTypeByName(element.Name.ToString())) == null) {
+						//TODO: Log error, action not found
+						continue;
+					}
+
+					try {
+						if ((actionInstance = Activator.CreateInstance(actionType, new object[] { this, element }) as Action) == null) {
+							//TODO: Log error, cannot create instance of action
+							continue;
+						}
+					} catch (Exception) {
+						//TODO: Log error, cannot create instance of action
+						continue;
+					}
+
+					Actions.Add(actionInstance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads the triggers for this chain by everything specified under the Triggers collection
+		/// </summary>
+		/// <param name="chainElement">Chain element.</param>
+		protected void LoadTriggers(ref XElement chainElement) {
+			if (this.chainElement.Element("Triggers") != null) {
+				Triggers = new List<Trigger>();
+
+				foreach (XElement element in this.chainElement.Element("Triggers").Elements()) {
+					Type triggerType = null;
+					Trigger triggerInstance = null;
+					if ((triggerType = Parent.GetTriggerTypeByName(element.Name.ToString())) == null) {
+						//TODO: Log error, trigger not found
+						continue;
+					}
+
+					try {
+						if ((triggerInstance = Activator.CreateInstance(triggerType, this, element) as Trigger) == null) {
+							//TODO: Log error, cannot create instance of trigger
+							continue;
+						}
+					} catch (Exception) {
+						//TODO: Log error, cannot create instance of trigger
+						continue;
+					}
+
+					Triggers.Add(triggerInstance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads the filters for this chain by everything specified under the Filters collection
+		/// </summary>
+		/// <param name="chainElement">Chain element.</param>
+		protected void LoadFilters(ref XElement chainElement) {
+			if (this.chainElement.Element("Filters") != null) {
+				Filters = new List<Filter>();
+
+				foreach (XElement filterElement in this.chainElement.Element("Filters").Elements()) {
+					Type filterType = null;
+					Filter filterInstance = null;
+					if ((filterType = Parent.GetFilterTypeByName(filterElement.Name.ToString())) == null) {
+						//TODO: Log error, filter not found
+						continue;
+					}
+
+					try {
+						if ((filterInstance = Activator.CreateInstance(filterType, new object[] { this, filterElement }) as Filter) == null) {
+							//TODO: Log error, cannot create instance of filter
+							continue;
+						}
+					} catch (Exception) {
+						//TODO: Log error, cannot create instance of filter
+						continue;
+					}
+
+					Filters.Add(filterInstance);
+				}
 			}
 		}
 
@@ -82,6 +177,11 @@ namespace TriggerHappy {
 			if (ignoreFilters == true) {
 				return true;
 			}
+
+			if (this.Filters == null) {
+				return false;
+			}
+
 			foreach (Filter f in this.Filters) {
 				bool stopProcessing = false;
 

@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A082C908-080A-4D10-BF26-F1788C3EB4B6}</ProjectGuid>
+    <ProjectGuid>{C1CD81A8-68DD-40A6-B9F3-8DFE21B94369}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>TriggerHappy.Packets</RootNamespace>
-    <AssemblyName>TriggerHappy.Packets</AssemblyName>
+    <RootNamespace>TriggerHappy.NUnitTests</RootNamespace>
+    <AssemblyName>TriggerHappy.NUnitTests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -17,7 +17,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -26,17 +25,31 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="nunit.framework" />
+    <Reference Include="TerrariaServer">
+      <HintPath>..\BuildReferences\TerrariaServer\APIVersion1.15\TerrariaServer.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PacketMarshal.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Structures\" />
+    <ProjectReference Include="..\TriggerHappy.csproj">
+      <Project>{FD94F4BB-AB28-497F-9F9B-59530D895CD5}</Project>
+      <Name>TriggerHappy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TriggerHappy.Packets\TriggerHappy.Packets.csproj">
+      <Project>{A082C908-080A-4D10-BF26-F1788C3EB4B6}</Project>
+      <Name>TriggerHappy.Packets</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestChain.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
