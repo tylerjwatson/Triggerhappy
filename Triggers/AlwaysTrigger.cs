@@ -5,6 +5,7 @@ namespace TriggerHappy {
 	/// <summary>
 	/// Unconditionally pulls a trigger.
 	/// </summary>
+	[Trigger("Always")]
 	public class AlwaysTrigger : Trigger {
 		public AlwaysTrigger(Chain parentChain, XElement triggerElement) : base(parentChain, triggerElement) {
 		}
