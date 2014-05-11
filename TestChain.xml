@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+	<Chain Name="__INCOMING__">
+		<Filters>
+			<Packet MsgID="Any" />
+		</Filters>
+		<Triggers>
+			<AlwaysTrigger />
+		</Triggers>
+		<Actions>
+			<Call Chain="damage-packet-chain" />
+		</Actions>
+	</Chain>	
+
+	<Chain Name="disconnect-player">
+		<Filters>
+			<Never />
+		</Filters>
+		<Triggers>
+			<AlwaysTrigger />
+		</Triggers>
+		<Actions>
+			<DisconnectPlayer />
+		</Actions>
+	</Chain>
+
+	<Chain Name="damage-packet-chain">
+		<Filters>
+			<Packet MsgID="28" />
+		</Filters>
+		<Triggers>
+			<PacketThreshold Threshold="1600" ThresholdResolution="Second" />
+		</Triggers>
+		<Actions>
+			<Jump ToChain="disconnect-player" />
+		</Actions>
+	</Chain>
+</Configuration>

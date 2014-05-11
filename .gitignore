@@ -1,0 +1,5 @@
+ServerInstance4.2/
+bin/
+obj/
+TriggerHappy.Packets/bin/
+TriggerHappy.Packets/obj/

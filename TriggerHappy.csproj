@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{FD94F4BB-AB28-497F-9F9B-59530D895CD5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TriggerHappy</RootNamespace>
+    <AssemblyName>TriggerHappy</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="xcopy /y /i ${TargetFile} ${SolutionDir}\..\Wolfje.Plugins\ServerInstance4.2\ServerPlugins" workingdir="${TargetDir}" />
+      </CustomCommands>
+    </CustomCommands>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="TriggerHappyPlugin.cs" />
+    <Compile Include="Framework\Trigger.cs" />
+    <Compile Include="Framework\Chain.cs" />
+    <Compile Include="Triggers\PacketThresholdTrigger.cs" />
+    <Compile Include="Framework\Filter.cs" />
+    <Compile Include="Filters\PacketFilter.cs" />
+    <Compile Include="Filters\AlwaysFilter.cs" />
+    <Compile Include="Filters\NeverFilter.cs" />
+    <Compile Include="Framework\Action.cs" />
+    <Compile Include="Framework\TriggerPulledEventArgs.cs" />
+    <Compile Include="Actions\CallAction.cs" />
+    <Compile Include="Actions\JumpAction.cs" />
+    <Compile Include="Framework\Attributes\TriggerAttribute.cs" />
+    <Compile Include="Actions\DisconnectPlayerAction.cs" />
+    <Compile Include="Framework\Attributes\FilterAttribute.cs" />
+    <Compile Include="Framework\Attributes\ActionAttribute.cs" />
+    <Compile Include="Triggers\AlwaysTrigger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TerrariaServer">
+      <HintPath>BuildReferences\TerrariaServer\APIVersion1.15\TerrariaServer.exe</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestChain.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Framework\" />
+    <Folder Include="Triggers\" />
+    <Folder Include="Filters\" />
+    <Folder Include="Actions\" />
+    <Folder Include="Framework\Attributes\" />
+  </ItemGroup>
+</Project>
