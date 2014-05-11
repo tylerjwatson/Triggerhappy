@@ -2,7 +2,12 @@
 using System.Xml.Linq;
 
 namespace TriggerHappy {
-
+	/// <summary>
+	/// Packet threshold trigger.
+	/// 
+	/// Measures the count of packets that are received from a player per second, or minute, and 
+	/// pulls the trigger when the configured threshold is exceeded.
+	/// </summary>
 	[Trigger("PacketThreshold")]
 	public class PacketThresholdTrigger : Trigger {
 		System.Timers.Timer timer;

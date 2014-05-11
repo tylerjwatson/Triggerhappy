@@ -34,17 +34,17 @@ namespace TriggerHappy {
 					Type actionType = null;
 					Action actionInstance = null;
 					if ((actionType = Parent.GetActionTypeByName(element.Name.ToString())) == null) {
-						//TODO: Log error, action not found
+						THLog.Log(LogLevel.Error, "Can't find an Action by the name " + element.Name.ToString());
 						continue;
 					}
 
 					try {
 						if ((actionInstance = Activator.CreateInstance(actionType, new object[] { this, element }) as Action) == null) {
-							//TODO: Log error, cannot create instance of action
+							THLog.Log(LogLevel.Error, "Can't create an instance of the Action " + element.Name.ToString());
 							continue;
 						}
 					} catch (Exception) {
-						//TODO: Log error, cannot create instance of action
+						THLog.Log(LogLevel.Error, "Can't create an instance of the Action " + element.Name.ToString());
 						continue;
 					}
 

@@ -52,6 +52,7 @@
     <Compile Include="Framework\Attributes\ActionAttribute.cs" />
     <Compile Include="Triggers\AlwaysTrigger.cs" />
     <Compile Include="ChainLoader.cs" />
+    <Compile Include="Framework\THLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TerrariaServer">
