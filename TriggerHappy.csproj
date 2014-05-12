@@ -53,6 +53,7 @@
     <Compile Include="Triggers\AlwaysTrigger.cs" />
     <Compile Include="ChainLoader.cs" />
     <Compile Include="Framework\THLog.cs" />
+    <Compile Include="Actions\HandlePacketAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TerrariaServer">
@@ -68,5 +69,13 @@
     <Folder Include="Filters\" />
     <Folder Include="Actions\" />
     <Folder Include="Framework\Attributes\" />
+    <Folder Include="ChainLibrary\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ChainLibrary\__INCOMING__.xml" />
+    <EmbeddedResource Include="ChainLibrary\stdchains.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ChainLibrary\anti-spam.xml" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<!--
+		This chain disonnects a player from the game.
+
+		Cannot be called directly, must be called as either part of a jump
+		or a call action.
+	-->
+	<Chain Name="disconnect-player">
+		<Filters>
+			<!-- 
+				Chain can't be called directly, only from a call or jump.
+				Note:  Filters don't get processed for calls or jumps so use
+				the Never filter to filter out this chain from normal packets.
+			 -->
+			<Never />
+		</Filters>
+		<Triggers>
+			<!-- This chain always triggers the disconnect actions -->
+			<AlwaysTrigger />
+		</Triggers>
+		<Actions>
+			<!-- And this disconnects the player from the game. -->
+			<DisconnectPlayer />
+		</Actions>
+	</Chain>
+</Configuration>
