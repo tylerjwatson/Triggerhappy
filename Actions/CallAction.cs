@@ -2,36 +2,41 @@
 using System.Xml.Linq;
 
 namespace TriggerHappy {
-	/// <summary>
-	/// Calls another chain and keeps on processing other actions.
-	/// </summary>
-	[Action("Call")]
-	public class CallAction : Action {
-		protected string chainName = null;
 
-		public CallAction(Chain parentChain, XElement actionElement) : base(parentChain, actionElement) {
-			if (actionElement.HasAttributes == true && actionElement.Attribute("Chain") != null) {				
-				chainName = actionElement.Attribute("Chain").Value;
-			}
-		}
+    /// <summary>
+    /// Calls another chain and keeps on processing other actions.
+    /// </summary>
+    [Action("Call")]
+    public class CallAction : Action {
+        protected string chainName = null;
 
-		#region implemented abstract members of Action
+        public CallAction(Chain parentChain, XElement actionElement) : base(parentChain, actionElement) {
+            if (actionElement.HasAttributes == true && actionElement.Attribute("Chain") != null) {				
+                chainName = actionElement.Attribute("Chain").Value;
+            }
+        }
 
-		public override void EvalAction(ref TerrariaApi.Server.GetDataEventArgs dataArgs, ref bool stopProcessing) {
-			Chain destinationChain = null;
-			if (parentChain == null || string.IsNullOrEmpty(chainName) == true) {
-				//TODO: Log error
-				return;
-			}
+        #region implemented abstract members of Action
 
-			if ((destinationChain = parentChain.Parent.GetChainByName(chainName)) == null) {
-				return;
-			}
+        public override void EvalAction(ref TerrariaApi.Server.GetDataEventArgs dataArgs, ref bool stopProcessing) {
+            Chain destinationChain = null;
+            if (parentChain == null || string.IsNullOrEmpty(chainName) == true) {
+                //TODO: Log error
+                return;
+            }
 
-			destinationChain.ProcessChain(ref dataArgs, true);
-		}
+            if ((destinationChain = parentChain.Parent.GetChainByName(chainName)) == null) {
+                return;
+            }
 
-		#endregion
-	}
+            destinationChain.ProcessChain(ref dataArgs, true);
+        }
+
+        #endregion
+
+        public override string ToString() {
+            return string.Format("[CallAction]");
+        }
+    }
 }
 
