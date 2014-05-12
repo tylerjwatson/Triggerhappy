@@ -100,6 +100,34 @@ namespace TriggerHappy {
         }
 
         /// <summary>
+        /// Writes the embedded resource XML files in the ChainLibrary folder to the specified dirName.
+        /// </summary>
+        /// <param name="dirName">Dir name.</param>
+        public void WriteChainLibrary(string dirName) {
+            foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames()) {
+                string fullResourcePath = null;
+
+                if (resourceName.EndsWith(".xml") == false) {
+                    continue;
+                }
+                fullResourcePath = dirName + System.IO.Path.DirectorySeparatorChar + resourceName;
+
+                try {
+                    if (System.IO.File.Exists(fullResourcePath) == true) {
+                        continue;
+                    }
+
+                    using (StreamReader sr = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))) {
+                        System.IO.File.WriteAllText(fullResourcePath, sr.ReadToEnd());
+                    }
+                } catch (Exception) {
+                    THLog.Log(LogLevel.Error, "Could not write resource {0} to path {1}!", resourceName, dirName);
+                }
+            }
+
+        }
+
+        /// <summary>
         /// Loads the chains in the specified directory.
         /// </summary>
         /// <param name="dirName">Dir name.</param>
