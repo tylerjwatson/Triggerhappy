@@ -7,108 +7,131 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace TriggerHappy {
-	[ApiVersion(1, 15)]
-	public class TriggerHappyPlugin : TerrariaPlugin {
-		internal List<Chain> chainList = new List<Chain>();
-		internal Dictionary<string, Type> actionTypes = null;
-		internal Dictionary<string, Type> filterTypes = null;
-		internal Dictionary<string, Type> triggerTypes = null;
-		public ChainLoader chainLoader = null;
 
-		protected bool enabled = true;
+    [ApiVersion(1, 15)]
+    public class TriggerHappyPlugin : TerrariaPlugin {
+        internal List<Chain> chainList = new List<Chain>();
+        internal Dictionary<string, Type> actionTypes = null;
+        internal Dictionary<string, Type> filterTypes = null;
+        internal Dictionary<string, Type> triggerTypes = null;
+        public ChainLoader chainLoader = null;
+        protected bool enabled = true;
 
-		#region "TerrariaPlugin overrides"
+        #region "TerrariaPlugin overrides"
 
-		public override string Author {
-			get {
-				return "Wolfje, Ijwu and others.";
-			}
-		}
+        public override string Author {
+            get {
+                return "Wolfje, Ijwu and others.";
+            }
+        }
 
-		public override string Description {
-			get {
-				return "Packet-level protection for Terraria servers";
-			}
-		}
+        public override string Description {
+            get {
+                return "Packet-level protection for Terraria servers";
+            }
+        }
 
-		public override string Name {
-			get {
-				return "Trigger Happy";
-			}
-		}
+        public override string Name {
+            get {
+                return "Trigger Happy";
+            }
+        }
 
-		public override Version Version {
-			get {
-				return Assembly.GetExecutingAssembly().GetName().Version;
-			}
-		}
+        public override Version Version {
+            get {
+                return Assembly.GetExecutingAssembly().GetName().Version;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Occurs when a packet gets sent from a client to the server.
-		/// </summary>
-		/// <param name="args">Arguments.</param>
-		void Net_GetData(GetDataEventArgs args) {
-			if (enabled == false) {
-				return;
-			}
-		}
+        /// <summary>
+        /// Occurs when a packet gets sent from a client to the server.
+        /// </summary>
+        /// <param name="args">Arguments.</param>
+        void Net_GetData(GetDataEventArgs args) {
+            Chain incomingChain = null;
+            string packetInfo = null;
 
-		public override void Initialize() {
-			ServerApi.Hooks.NetGetData.Register(this, Net_GetData);
-			LoadTypeCache();
-		}
+            if (enabled == false || (incomingChain = GetIncomingChain()) == null) {
+                return;
+            }
 
-		protected override void Dispose(bool disposing) {
-			base.Dispose(disposing);
+            packetInfo = string.Format("{0:x2} len {1} from client slot {2}", args.MsgID, args.Length, args.Msg.whoAmI);
 
-			if (disposing) {
-				ServerApi.Hooks.NetGetData.Deregister(this, Net_GetData);
-			}
-		}
+            THLog.Debug("Packet in: " + packetInfo);
+            incomingChain.ProcessChain(ref args, false);
+            if (args.Handled == false) {
+                THLog.Debug("Packet out: " + packetInfo);
+            }
+        }
 
-		public TriggerHappyPlugin(Main game) : base(game) {
-			this.chainLoader = new ChainLoader(this);
-		}
+        public override void Initialize() {
+            try {
+                LoadTypeCache();
+                chainLoader.LoadChainsInDirectory("triggerhappy" + System.IO.Path.DirectorySeparatorChar + "chains");
 
-		public void LoadTypeCache() {
-			try {
-				this.actionTypes = this.chainLoader.LoadAttributeTypes<ActionAttribute>();
-				this.filterTypes = this.chainLoader.LoadAttributeTypes<FilterAttribute>();
-				this.triggerTypes = this.chainLoader.LoadAttributeTypes<TriggerAttribute>();
-			} catch (Exception) {
-				//TODO: Log error
-			}
-		}
+                if (chainLoader.VerifyChains() == false) {
+                    THLog.Log(LogLevel.Error, "Error: Initializing TriggerHappy failed, unable to start.");
+                    return;
+                }
+            } catch (Exception) {
+                THLog.Log(LogLevel.Error, "Error: Initializing TriggerHappy failed, unable to start.");
+                return;
+            }
 
-		public Chain GetChainByName(string chainName) {
-			return chainList.FirstOrDefault(i => i.Name.Equals(chainName));
-		}
+            ServerApi.Hooks.NetGetData.Register(this, Net_GetData);
+        }
 
-		public Type GetActionTypeByName(string name) {
-			if (actionTypes == null || actionTypes.ContainsKey(name) == false) {
-				return null;
-			}
+        protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
 
-			return actionTypes[name];
-		}
+            if (disposing) {
+                ServerApi.Hooks.NetGetData.Deregister(this, Net_GetData);
+            }
+        }
 
-		public Type GetFilterTypeByName(string name) {
-			if (filterTypes == null || filterTypes.ContainsKey(name) == false) {
-				return null;
-			}
+        public TriggerHappyPlugin(Main game) : base(game) {
+            this.chainLoader = new ChainLoader(this);
+        }
 
-			return filterTypes[name];
-		}
+        public void LoadTypeCache() {
+            this.actionTypes = this.chainLoader.LoadAttributeTypes<ActionAttribute>();
+            this.filterTypes = this.chainLoader.LoadAttributeTypes<FilterAttribute>();
+            this.triggerTypes = this.chainLoader.LoadAttributeTypes<TriggerAttribute>();
+        }
 
-		public Type GetTriggerTypeByName(string name) {
-			if (triggerTypes == null || triggerTypes.ContainsKey(name) == false) {
-				return null;
-			}
+        public Chain GetIncomingChain() {
+            return GetChainByName("__INCOMING__");
+        }
 
-			return triggerTypes[name];
-		}
-	}
+        public Chain GetChainByName(string chainName) {
+            return chainList.FirstOrDefault(i => i.Name.Equals(chainName));
+        }
+
+        public Type GetActionTypeByName(string name) {
+            if (actionTypes == null || actionTypes.ContainsKey(name) == false) {
+                return null;
+            }
+
+            return actionTypes[name];
+        }
+
+        public Type GetFilterTypeByName(string name) {
+            if (filterTypes == null || filterTypes.ContainsKey(name) == false) {
+                return null;
+            }
+
+            return filterTypes[name];
+        }
+
+        public Type GetTriggerTypeByName(string name) {
+            if (triggerTypes == null || triggerTypes.ContainsKey(name) == false) {
+                return null;
+            }
+
+            return triggerTypes[name];
+        }
+    }
 }
 
