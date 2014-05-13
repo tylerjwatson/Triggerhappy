@@ -144,6 +144,8 @@ namespace TriggerHappy {
                 THLog.Debug("CreateDirectory {0} succeeded", dirName);
             }
 
+            WriteChainLibrary(dirName);
+
             THLog.Debug("LoadChainsInDirectory {0}", dirName);
 
             foreach (string xmlFile in Directory.GetFiles(dirName, "*.xml")) {

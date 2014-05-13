@@ -1,33 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Framework\Chain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TriggerHappyPlugin.cs">
     <Files>
-      <File FileName="Triggers\AlwaysTrigger.cs" Line="10" Column="20" />
-      <File FileName="ChainLoader.cs" Line="74" Column="6" />
-      <File FileName="TriggerHappyPlugin.cs" Line="75" Column="32" />
-      <File FileName="Framework\Chain.cs" Line="38" Column="16" />
-      <File FileName="Triggers\PacketThresholdTrigger.cs" Line="6" Column="31" />
-      <File FileName="Framework\THLog.cs" Line="34" Column="48" />
+      <File FileName="ChainLibrary/__INCOMING__.xml" Line="1" Column="1" />
+      <File FileName="TriggerHappy.NUnitTests/TestChain.xml" Line="8" Column="20" />
+      <File FileName="ChainLibrary/anti-spam.xml" Line="1" Column="1" />
+      <File FileName="ChainLibrary/stdchains.xml" Line="1" Column="1" />
+      <File FileName="Actions/HandlePacketAction.cs" Line="1" Column="1" />
+      <File FileName="ChainLoader.cs" Line="165" Column="22" />
+      <File FileName="TriggerHappyPlugin.cs" Line="74" Column="44" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True">
-          <Node name="TriggerHappy.NUnitTests" expanded="True">
-            <Node name="TriggerHappy" expanded="True">
-              <Node name="NUnitTests" expanded="True">
-                <Node name="Test" expanded="True">
-                  <Node name="TestChainLoad" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Dropbox\Private\_dev\TShockPlugins\TriggerHappy\ChainLoader.cs" line="96" column="1" />
+      <Breakpoint file="/Users/tw/Projects/Triggerhappy/ChainLoader.cs" line="170" column="1" />
+      <Breakpoint file="/Users/tw/Projects/Triggerhappy/TriggerHappyPlugin.cs" line="69" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

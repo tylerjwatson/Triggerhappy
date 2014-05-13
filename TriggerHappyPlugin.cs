@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace TriggerHappy {
 
-    [ApiVersion(1, 15)]
+    [ApiVersion(1, 16)]
     public class TriggerHappyPlugin : TerrariaPlugin {
         internal List<Chain> chainList = new List<Chain>();
         internal Dictionary<string, Type> actionTypes = null;
