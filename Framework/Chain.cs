@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 
 namespace TriggerHappy {
 
@@ -70,17 +71,17 @@ namespace TriggerHappy {
                     Type triggerType = null;
                     Trigger triggerInstance = null;
                     if ((triggerType = Parent.GetTriggerTypeByName(element.Name.ToString())) == null) {
-                        //TODO: Log error, trigger not found
+                        THLog.Log(LogLevel.Error, "Trigger {0} in chain {1} does not exist.", element.Name.ToString(), this.Name);
                         continue;
                     }
 
                     try {
                         if ((triggerInstance = Activator.CreateInstance(triggerType, this, element) as Trigger) == null) {
-                            //TODO: Log error, cannot create instance of trigger
+                            THLog.Log(LogLevel.Error, "Cannot create an instance of {0} in chain {1}.", element.Name.ToString(), this.Name);
                             continue;
                         }
                     } catch (Exception) {
-                        //TODO: Log error, cannot create instance of trigger
+                        THLog.Log(LogLevel.Error, "Error creating an instance of {0} in chain {1}.", element.Name.ToString(), this.Name);
                         continue;
                     }
 
@@ -123,9 +124,11 @@ namespace TriggerHappy {
         /// <summary>
         /// Occurs when a trigger pulls in this chain.  From here the chains actions get invoked.
         /// </summary>
-        internal void TriggerPulled(Trigger trigger, ref TerrariaApi.Server.GetDataEventArgs dataArgs) {
-            THLog.Log(LogLevel.Error, "Chain processor: {0}: Trigger {1} has been pulled!");
-            //TODO: Log trigger pull
+        internal void TriggerPulled(Trigger trigger, ref TerrariaApi.Server.GetDataEventArgs dataArgs, bool silentPull) {
+            if (silentPull == false) {
+                THLog.Log(LogLevel.Error, "Chain processor: {0}: Trigger {1} has been pulled!", this.Name, trigger);
+                Interlocked.Increment(ref Parent.triggerPullCounter);
+            }
             ProcessActions(ref dataArgs);
         }
 
@@ -176,7 +179,7 @@ namespace TriggerHappy {
                 t.EvalTrigger(ref dataArgs, ref stopProcessing);
                 THLog.Debug("Chain processor: {0}: Leaving trigger {1}", Name, t);
                 if (stopProcessing == true) {
-                    THLog.Debug(ConsoleColor.Yellow, "Chain processor: {0}: Stopping processing {1}", t);
+                    THLog.Debug(ConsoleColor.Yellow, "Chain processor: {0}: Stopping processing {1}", this.Name, t);
                     break;
                 }
             }

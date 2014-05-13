@@ -21,8 +21,8 @@ namespace TriggerHappy {
 		/// </summary>
 		/// <param name="dataEventArgs">The ${ParameterType} instance containing the event data.</param>
 		/// <param name="message">Message.</param>
-		protected virtual void PullTrigger(ref TerrariaApi.Server.GetDataEventArgs dataEventArgs, string message, ref bool stopProcessing) {
-			parentChain.TriggerPulled(this, ref dataEventArgs);
+		protected virtual void PullTrigger(ref TerrariaApi.Server.GetDataEventArgs dataEventArgs, string message, ref bool stopProcessing, bool silentPull = true) {
+			parentChain.TriggerPulled(this, ref dataEventArgs, silentPull);
 
 			stopProcessing = true;
 		}

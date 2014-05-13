@@ -5,7 +5,7 @@
 			<Packet MsgID="Any" />
 		</Filters>
 		<Triggers>
-			<AlwaysTrigger />
+			<Always />
 		</Triggers>
 		<Actions>
 			<Call Chain="damage-packet-chain" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -68,19 +68,19 @@
     <Reference Include="System.Xml" />
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\" />
-    <Folder Include="Triggers\" />
-    <Folder Include="Filters\" />
-    <Folder Include="Actions\" />
-    <Folder Include="Framework\Attributes\" />
-    <Folder Include="ChainLibrary\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="ChainLibrary\__INCOMING__.xml" />
     <EmbeddedResource Include="ChainLibrary\stdchains.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ChainLibrary\anti-spam.xml" />
+    <EmbeddedResource Include="ChainLibrary\anti-spam.xml" />
   </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y /i "$(TargetPath)" "$(SolutionDir)\ServerInstance4.2\ServerPlugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

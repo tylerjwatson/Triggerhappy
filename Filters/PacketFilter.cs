@@ -35,6 +35,10 @@ namespace TriggerHappy {
         }
 
         #endregion
+
+        public override string ToString() {
+            return "[PacketFilter]";
+        }
     }
 }
 

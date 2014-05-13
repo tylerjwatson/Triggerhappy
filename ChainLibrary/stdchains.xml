@@ -17,7 +17,7 @@
 		</Filters>
 		<Triggers>
 			<!-- This chain always triggers the disconnect actions -->
-			<AlwaysTrigger />
+			<Always />
 		</Triggers>
 		<Actions>
 			<!-- And this disconnects the player from the game. -->

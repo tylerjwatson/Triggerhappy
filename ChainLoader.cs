@@ -151,7 +151,7 @@ namespace TriggerHappy {
             foreach (string xmlFile in Directory.GetFiles(dirName, "*.xml")) {
                 try {
                     THLog.Debug("LoadChain {0}", xmlFile);
-                    LoadChain(Path.Combine(dirName, xmlFile));
+                    LoadChain(xmlFile);
                 } catch (Exception) {
                     THLog.Log(LogLevel.Error, "LoadChain {0} failed.", dirName);
                 }
@@ -219,7 +219,7 @@ namespace TriggerHappy {
                 chainCount++;
             }
 
-            THLog.Debug("LoadChains loaded {1} chains", chainCount);
+            THLog.Debug("LoadChains loaded {0} chains", chainCount);
             parent.chainList.AddRange(chainList);
         }
     }

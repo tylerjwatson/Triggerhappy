@@ -11,6 +11,7 @@ namespace TriggerHappy {
 
     public static class THLog {
         static readonly object __consoleLock = new object();
+        public static bool debugMode = false;
 
         static ConsoleColor GetColour(LogLevel level) {
             switch (level) {
@@ -31,6 +32,9 @@ namespace TriggerHappy {
         }
 
         public static void Debug(ConsoleColor? colour = null, string MessageFormat = "", params object[] args) {
+            if (debugMode == false) {
+                return;
+            }
             ConsoleColor oldConsoleColour = Console.ForegroundColor;
             lock (__consoleLock) {
                 Console.ForegroundColor = colour ?? GetColour(LogLevel.Debug);

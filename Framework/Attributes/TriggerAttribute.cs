@@ -6,10 +6,10 @@ namespace TriggerHappy {
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class)]
 	public sealed class TriggerAttribute : Attribute {
-		public string TriggerName { get; private set; }
+		public string Name { get; private set; }
 
 		public TriggerAttribute(string TriggerName) {
-			this.TriggerName = TriggerName;
+			this.Name = TriggerName;
 		}
 	}
 }
