@@ -25,6 +25,9 @@ namespace TriggerHappy {
         internal long handledCounter = 0;
         internal long triggerPullCounter = 0;
 
+        private static readonly Regex commandParamRegex = new Regex("\"[^\"]+\"|[\\w]+");
+        private static readonly Regex commandNameRegex = new Regex("!([^ ]+)");
+
         #region "TerrariaPlugin overrides"
 
         public override string Author {
@@ -100,42 +103,64 @@ namespace TriggerHappy {
         }
 
         public override void Initialize() {
+            
+            ServerApi.Hooks.ServerCommand.Register(this, Server_Command);
+        }
+
+        private void InitChains() {
+            THLog.Debug("DeregisterGetDataHook");
+            ServerApi.Hooks.NetGetData.Deregister(this, Net_GetData);
+            THLog.Debug("DeregisterGetDataHook succeeded");
+
             try {
                 LoadTypeCache();
                 chainLoader.LoadChainsInDirectory("triggerhappy" + System.IO.Path.DirectorySeparatorChar + "chains");
 
                 if (chainLoader.VerifyChains() == false) {
-                    THLog.Log(LogLevel.Error, "Error: Initializing TriggerHappy failed, unable to start.");
+                    THLog.Log(LogLevel.Error, "Error: Initializing TriggerHappy failed and will be disabled.  Use !chain reload to retry");
                     return;
                 }
             } catch (Exception) {
-                THLog.Log(LogLevel.Error, "Error: Initializing TriggerHappy failed, unable to start.");
+                THLog.Log(LogLevel.Error, "Error: Initializing TriggerHappy failed and will be disabled.  Use !chain reload to retry");
                 return;
             }
 
-            ServerApi.Hooks.ServerCommand.Register(this, Server_Command);
+            THLog.Debug("RegisterGetDataHook");
             ServerApi.Hooks.NetGetData.Register(this, Net_GetData);
+            THLog.Debug("RegisterGetDataHook succeeded");
         }
 
         private void Server_Command(CommandEventArgs args) {
-            string[] spaceSplit = null;
-            if (args.Command.StartsWith("!") == false) {
+            string command = null;
+            string[] arguments = null;
+            MatchCollection paramMatch = null;
+            int paramCount = 0;
+
+            if (commandNameRegex.IsMatch(args.Command) == false) {
                 return;
             }
 
-            spaceSplit = args.Command.Split(' ');
-            if (spaceSplit.Length == 0) {
-                return;
+            command = args.Command;
+            if (commandParamRegex.IsMatch(command) == true) {
+                paramMatch = commandParamRegex.Matches(command);
+                paramCount = paramMatch.Count;
             }
 
-            ProcessCommand(spaceSplit[0], spaceSplit.Length > 1 ? spaceSplit.Skip(1).ToArray() : null);
+            if (paramCount > 0) {
+                arguments = new string[paramCount - 1];
+                for (int i = 1; i < paramCount; i++) {
+                    arguments[i - 1] = paramMatch[i].Value;
+                }
+            }
 
-            Console.WriteLine("blah");
+            ProcessCommand(commandParamRegex.Match(command).Groups[0].Value, arguments);
             args.Handled = true;
         }
 
         private void ProcessCommand(string command, string[] args) {
-            if (command == "!stats") {
+            THLog.Debug("Command: {0} params: {1}", command, args.Length);
+
+            if (command == "perf") {
                 THLog.Log(LogLevel.Info, "{0} packets in, {1} filtered, {2} pulled.", packetCounter, handledCounter, triggerPullCounter);
                 lock (processTimerMutex) {
                     if (processTimerStats.Count == 0) {
@@ -144,6 +169,24 @@ namespace TriggerHappy {
                     }
                     THLog.Log(LogLevel.Info, "Perf: {0:0.000}ms avg, {1:0.000}ms min, {2:0.000}ms max.", processTimerStats.Average(), processTimerStats.Min(), processTimerStats.Max());
                 }
+            } else if (command == "chain") {
+                if (args.Length == 0) {
+                    //todo: write !chain help
+                    return;
+                }
+
+                if (args[0] == "list") {
+                    foreach (Chain chain in chainList) {
+                        THLog.Log(LogLevel.Info, "{0}", chain);
+                    }
+                }
+
+                if (args[0] == "reload") {
+                    this.chainList.Clear();
+                    InitChains();
+                }
+            } else if (command == "debug") {
+                THLog.debugMode = !THLog.debugMode;
             }
         }
 

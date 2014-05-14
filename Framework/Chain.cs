@@ -214,6 +214,10 @@ namespace TriggerHappy {
             }
             return false;
         }
+
+        public override string ToString() {
+            return string.Format("[Chain {0}] {1} filters, {2} triggers, {3} actions", this.Name, Filters.Count, Triggers.Count, Actions.Count);
+        }
     }
 }
 

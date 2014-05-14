@@ -11,7 +11,7 @@ namespace TriggerHappy {
 
     public static class THLog {
         static readonly object __consoleLock = new object();
-        public static bool debugMode = false;
+        public static bool debugMode = true;
 
         static ConsoleColor GetColour(LogLevel level) {
             switch (level) {
