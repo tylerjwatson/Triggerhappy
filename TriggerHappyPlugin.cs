@@ -13,8 +13,8 @@ namespace TriggerHappy {
 
     [ApiVersion(1, 16)]
     public class TriggerHappyPlugin : TerrariaPlugin {
-        public ChainLoader chainLoader = null;
-        public bool enabled = true;
+        internal ChainLoader chainLoader = null;
+        internal bool enabled = true;
         internal List<Chain> chainList = new List<Chain>();
         internal Dictionary<string, Type> actionTypes = null;
         internal Dictionary<string, Type> filterTypes = null;
@@ -103,10 +103,13 @@ namespace TriggerHappy {
         }
 
         public override void Initialize() {
-            
             ServerApi.Hooks.ServerCommand.Register(this, Server_Command);
+            InitChains();
         }
 
+        /// <summary>
+        /// Loads all the chains in the triggerhappy/chains directory and then registers the data handler.
+        /// </summary>
         private void InitChains() {
             THLog.Debug("DeregisterGetDataHook");
             ServerApi.Hooks.NetGetData.Deregister(this, Net_GetData);
@@ -159,17 +162,7 @@ namespace TriggerHappy {
 
         private void ProcessCommand(string command, string[] args) {
             THLog.Debug("Command: {0} params: {1}", command, args.Length);
-
-            if (command == "perf") {
-                THLog.Log(LogLevel.Info, "{0} packets in, {1} filtered, {2} pulled.", packetCounter, handledCounter, triggerPullCounter);
-                lock (processTimerMutex) {
-                    if (processTimerStats.Count == 0) {
-                        THLog.Log(LogLevel.Info, "Perf: 0ms avg, 0ms min, 0ms max.");
-                        return;
-                    }
-                    THLog.Log(LogLevel.Info, "Perf: {0:0.000}ms avg, {1:0.000}ms min, {2:0.000}ms max.", processTimerStats.Average(), processTimerStats.Min(), processTimerStats.Max());
-                }
-            } else if (command == "chain") {
+            if (command == "chain") {
                 if (args.Length == 0) {
                     //todo: write !chain help
                     return;
@@ -179,25 +172,35 @@ namespace TriggerHappy {
                     foreach (Chain chain in chainList) {
                         THLog.Log(LogLevel.Info, "{0}", chain);
                     }
-                }
-
-                if (args[0] == "reload") {
+                } else if (args[0] == "reload") {
                     this.chainList.Clear();
                     InitChains();
                 }
-            } else if (command == "debug") {
-                THLog.debugMode = !THLog.debugMode;
+            } else if (command == "fw") {
+                if (args.Length == 0) {
+                    //todo: write !fw help
+                    return;
+                }
+                if (args[0] == "on") {
+                    enabled = true;
+                } else if (args[0] == "off") {
+                    enabled = false;
+                } else if (args[0] == "debug") {
+                    THLog.debugMode = !THLog.debugMode;
+                } else if (args[0] == "perf") {
+                    THLog.Log(LogLevel.Info, "{0} packets in, {1} filtered, {2} pulled.", packetCounter, handledCounter, triggerPullCounter);
+                    lock (processTimerMutex) {
+                        if (processTimerStats.Count == 0) {
+                            THLog.Log(LogLevel.Info, "Perf: 0ms avg, 0ms min, 0ms max.");
+                            return;
+                        }
+                        THLog.Log(LogLevel.Info, "Perf: {0:0.000}ms avg, {1:0.000}ms min, {2:0.000}ms max.", processTimerStats.Average(), processTimerStats.Min(), processTimerStats.Max());
+                    }
+                }
             }
         }
 
-        protected override void Dispose(bool disposing) {
-            base.Dispose(disposing);
-
-            if (disposing) {
-                ServerApi.Hooks.NetGetData.Deregister(this, Net_GetData);
-            }
-        }
-
+        
         public TriggerHappyPlugin(Main game) : base(game) {
             this.chainLoader = new ChainLoader(this);
         }
@@ -241,6 +244,14 @@ namespace TriggerHappy {
             return triggerTypes[name];
         }
         #endregion
+
+        protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
+
+            if (disposing) {
+                ServerApi.Hooks.NetGetData.Deregister(this, Net_GetData);
+            }
+        }
 
     }
 }

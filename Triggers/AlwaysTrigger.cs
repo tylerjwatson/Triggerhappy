@@ -14,7 +14,7 @@ namespace TriggerHappy {
         #region implemented abstract members of Trigger
 
         public override void EvalTrigger(ref TerrariaApi.Server.GetDataEventArgs dataEventArgs, ref bool stopProcessing) {
-            PullTrigger(ref dataEventArgs, "Always pulled", ref stopProcessing);
+            PullTrigger(ref dataEventArgs, "Always pulled", ref stopProcessing, true);
         }
 
         #endregion
