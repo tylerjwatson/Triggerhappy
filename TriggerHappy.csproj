@@ -39,6 +39,8 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Framework\PacketMarshal.cs" />
+    <Compile Include="Packets\StrikeNPC.cs" />
     <Compile Include="TriggerHappyPlugin.cs" />
     <Compile Include="Framework\Trigger.cs" />
     <Compile Include="Framework\Chain.cs" />
@@ -48,7 +50,6 @@
     <Compile Include="Filters\AlwaysFilter.cs" />
     <Compile Include="Filters\NeverFilter.cs" />
     <Compile Include="Framework\Action.cs" />
-    <Compile Include="Framework\TriggerPulledEventArgs.cs" />
     <Compile Include="Actions\CallAction.cs" />
     <Compile Include="Actions\JumpAction.cs" />
     <Compile Include="Framework\Attributes\TriggerAttribute.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="ChainLoader.cs" />
     <Compile Include="Framework\THLog.cs" />
     <Compile Include="Actions\HandlePacketAction.cs" />
+    <Compile Include="Triggers\RangeCheckTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TerrariaServer">
