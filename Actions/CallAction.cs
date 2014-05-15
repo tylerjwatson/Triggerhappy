@@ -35,7 +35,7 @@ namespace TriggerHappy {
         #endregion
 
         public override string ToString() {
-            return string.Format("[CallAction]");
+            return string.Format("[CallAction] Chain={0}", chainName);
         }
     }
 }

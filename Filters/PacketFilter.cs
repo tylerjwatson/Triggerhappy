@@ -37,7 +37,7 @@ namespace TriggerHappy {
         #endregion
 
         public override string ToString() {
-            return "[PacketFilter]";
+            return string.Format("[PacketFilter] MsgID={0}", msgId.HasValue ? msgId.Value.ToString() : "Any");
         }
     }
 }
