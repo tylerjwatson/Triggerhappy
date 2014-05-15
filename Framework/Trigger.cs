@@ -24,7 +24,7 @@ namespace TriggerHappy {
 		protected virtual void PullTrigger(ref TerrariaApi.Server.GetDataEventArgs dataEventArgs, string message, ref bool stopProcessing, bool silentPull = false) {
 			parentChain.TriggerPulled(this, ref dataEventArgs, silentPull);
 
-			stopProcessing = true;
+			//stopProcessing = true;
 		}
 
 		/// <summary>

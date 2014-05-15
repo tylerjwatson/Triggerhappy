@@ -33,6 +33,9 @@ namespace TriggerHappy {
 
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
             lock (packetsPerUserLock) {
+                foreach (var item in packetsPerUser) {
+                    Console.WriteLine("{0}: {1} packets per sec", Terraria.Main.player[item.Key], item.Value);
+                }
                 packetsPerUser.Clear();
             }
         }

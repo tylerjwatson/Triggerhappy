@@ -70,11 +70,17 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="ChainLibrary\__INCOMING__.xml" />
-    <EmbeddedResource Include="ChainLibrary\stdchains.xml" />
+    <EmbeddedResource Include="ChainLibrary\__INCOMING__.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChainLibrary\stdchains.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ChainLibrary\anti-spam.xml" />
+    <EmbeddedResource Include="ChainLibrary\anti-spam.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>

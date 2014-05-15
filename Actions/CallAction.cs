@@ -29,7 +29,7 @@ namespace TriggerHappy {
                 return;
             }
 
-            destinationChain.ProcessChain(ref dataArgs, true);
+            destinationChain.ProcessChain(ref dataArgs);
         }
 
         #endregion
