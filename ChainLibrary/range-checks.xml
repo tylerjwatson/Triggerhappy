@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+  <Chain Name="strikenpc-range-chain">
+    <Filters>
+      <Packet MsgID="24" />
+      <Packet MsgID="28" />
+    </Filters>
+    <Triggers>
+      <RangeCheck Range="3x3" />
+    </Triggers>
+    <Actions>
+      <Jump ToChain="disconnect-player" />
+    </Actions>
+  </Chain>
+</Configuration>

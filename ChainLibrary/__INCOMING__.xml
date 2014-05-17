@@ -1,14 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Configuration>
-	<Chain Name="__INCOMING__">
-		<Filters>
-			<Packet MsgID="Any" />
-		</Filters>
-		<Triggers>
-			<Always />
-		</Triggers>
-		<Actions>
-			<Call Chain="damage-packet-chain" />
-		</Actions>
-	</Chain>	
+  <Chain Name="__INCOMING__">
+    <Filters>
+      <Packet MsgID="Any" />
+    </Filters>
+    <Triggers>
+      <Always />
+    </Triggers>
+    <Actions>
+      <Call Chain="all-anti-spam" />
+      <Call Chain="all-range-checks" />
+    </Actions>
+  </Chain>
+  
+  <Chain Name="all-anti-spam">
+    <Filters>
+      <Packet MsgID="Any" />
+    </Filters>
+    <Triggers>
+      <Always />
+    </Triggers>
+    <Actions>
+      <Call Chain="damage-packet-chain" />
+      <Call Chain="projectile-packet-chain" />
+    </Actions>
+  </Chain>
+
+  <Chain Name="all-range-checks">
+    <Filters>
+      <Packet MsgID="Any" />
+    </Filters>
+    <Triggers>
+      <Always />
+    </Triggers>
+    <Actions>
+      <Call Chain="strikenpc-range-chain" />
+    </Actions>
+  </Chain>
 </Configuration>

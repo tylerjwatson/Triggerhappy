@@ -11,4 +11,15 @@
       <Jump ToChain="disconnect-player" />
     </Actions>
   </Chain>
+  <Chain Name="projectile-packet-chain">
+    <Filters>
+      <Packet MsgID="27" />
+    </Filters>
+    <Triggers>
+      <PacketThreshold Threshold="100" ThresholdResolution="Second" />
+    </Triggers>
+    <Actions>
+      <Jump ToChain="disconnect-player" />
+    </Actions>
+  </Chain>
 </Configuration>
