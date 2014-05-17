@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Triggerhappy\TriggerHappy.csproj">
+    <ProjectReference Include="..\TriggerHappy.csproj">
       <Project>{fd94f4bb-ab28-497f-9f9b-59530d895cd5}</Project>
       <Name>TriggerHappy</Name>
     </ProjectReference>

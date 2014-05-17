@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Framework\PacketMarshal.cs" />
     <Compile Include="Packets\StrikeNPC.cs" />
+    <Compile Include="Packets\StrikeNPCHeldItem.cs" />
     <Compile Include="TriggerHappyPlugin.cs" />
     <Compile Include="Framework\Trigger.cs" />
     <Compile Include="Framework\Chain.cs" />
@@ -70,7 +71,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ChainLibrary\range-checks.xml" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ChainLibrary\__INCOMING__.xml">
       <SubType>Designer</SubType>

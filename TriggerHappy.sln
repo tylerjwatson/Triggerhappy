@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerHappy", "TriggerHappy.csproj", "{FD94F4BB-AB28-497F-9F9B-59530D895CD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerHappy.UnitTests", "..\TriggerHappy.UnitTests\TriggerHappy.UnitTests.csproj", "{C97390BD-0F6D-4A18-B12B-0C4E4B80FACB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerHappy.UnitTests", "TriggerHappy.UnitTests\TriggerHappy.UnitTests.csproj", "{C97390BD-0F6D-4A18-B12B-0C4E4B80FACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
